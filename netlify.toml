@@ -1,0 +1,3 @@
+[build]
+  publish = "output"
+  command = "echo 'Melewati proses build, payload sudah dirakit oleh GitHub Actions.'"
