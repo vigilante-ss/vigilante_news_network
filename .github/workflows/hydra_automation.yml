@@ -1,0 +1,29 @@
+name: Hydra-Pulse Auto News Generator
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Menjalankan operasi setiap 6 jam
+  workflow_dispatch: # Memungkinkan eksekusi manual
+
+jobs:
+  build-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Akses Repositori Operasional
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Inisialisasi Generator Berita
+        run: python generator.py
+
+      - name: Commit Hasil Rakitan ke Jaringan
+        run: |
+          git config --global user.name "Vigilante System"
+          git config --global user.email "vigilante@underground.net"
+          git add output/
+          git commit -m "[JARVIS] Auto-update rotasi berita & payload digital" || echo "Tidak ada perubahan."
+          git push
